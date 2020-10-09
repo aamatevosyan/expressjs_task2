@@ -6,13 +6,13 @@
     justify-content: center;
 }
 
-div.container.notes {
+.container.notes {
     display: flex;
     flex-direction: column;
     padding: 25px;
 }
 
-div.container.notes .row {
+.container.notes .row {
     margin-top: 20px;
 }
 

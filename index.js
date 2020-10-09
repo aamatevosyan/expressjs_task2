@@ -37,8 +37,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', (req, res) => {
-    console.log(notes.notes);
-    res.send(pug.renderFile("index.pug", {notes: Object.fromEntries(notes.notes)}));
+    res.send(pug.renderFile("index.pug", {notes: Object.fromEntries(notes.notes), isEmpty: notes.notes.size > 0}));
 });
 
 app.post('/', validate(newNoteValidation, {}, {}), (req, res, next) => {
@@ -48,9 +47,7 @@ app.post('/', validate(newNoteValidation, {}, {}), (req, res, next) => {
 });
 
 app.get('/edit/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res, next) => {
-    console.log(req.params.uuid);
     const noteText = notes.get(req.params.uuid);
-    console.log(noteText);
     if (noteText) {
         res.send(pug.renderFile("edit.pug", {uuid: req.params.uuid, noteText: noteText}));
         next();
@@ -60,9 +57,7 @@ app.get('/edit/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res, next) =>
 });
 
 app.post('/edit', validate(editNoteValidation, {}, {}), (req, res) => {
-    console.log(req.body);
     notes.edit(req.body.uuid, req.body.noteText);
-    console.log(notes.get(req.body.uuid));
     res.redirect('/');
 });
 
