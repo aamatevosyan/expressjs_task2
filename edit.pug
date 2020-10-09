@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Notes
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        script(src="/js/jquery.min.js")
+        script(src="/js/bootstrap.min.js")
+        link(rel="stylesheet", href="/css/main.css")
+    body
+        div.container
+            div.container.header
+                form(action="/edit", method="post")
+                    input(type="text" name="noteText" placeholder="Enter note..." required="true" value=noteText)
+                    input(type="text" name="uuid" style="display:none" value=uuid)
+                    input(type="submit")

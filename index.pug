@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Notes
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        script(src="/js/jquery.min.js")
+        script(src="/js/bootstrap.min.js")
+        link(rel="stylesheet", href="/css/main.css")
+    body
+        div.container
+            div.container.header
+                form(action="/", method="post")
+                    input(type="text" name="noteText" placeholder="Enter note..." required="true")
+                    input(type="submit")
+            div.container.notes
+                each val in notes
+                    div.row
+                        div.col-8
+                            p #{val.text}
+                        div.col-2
+                            a(href="/edit/" + val.uuid) Edit
+                        div.col-2
+                            a(href="/delete/" + val.uuid) Delete
