@@ -1,50 +1,29 @@
 const { v4 : uuidv4 } = require('uuid'); 
 
-class Note {
-    constructor(noteText) {
-        this.uuid = uuidv4();
-        this.text = noteText;
-    }
-}
-
 class Notes {
     constructor() {
-        this.notes = [];
+        this.notes = new Map();
     }
 
     add(noteText) {
-        this.notes.push(new Note(noteText));
+        this.notes.set(uuidv4(), noteText);
     }
 
     delete(noteId) {
-        for (const note of this.notes)
-            if (note.uuid === noteId) {
-                this.notes.splice(this.notes.indexOf(note), 1);
-                return true;
-            }
-        return false;
+        return this.notes.delete(noteId);
     }
 
-    editByID(noteId, noteText) {
-        return this.editByNote(this.get(noteId), noteText);
-    }
-
-    editByNote(note, noteText) {
-        if (note) {
-            note.text = noteText;
+    edit(noteId, noteText) {
+        if (this.notes.has(noteId)) {
+            this.notes.set(noteId, noteText);
             return true;
         }
         return false;
     }
 
     get(noteId) {
-        for (const note of this.notes)
-            if (note.uuid === noteId) {
-                return note;
-            }
-        return undefined;
+        return this.notes.get(noteId);
     }
 }
 
-exports.Note = Note;
-exports.Notes = Notes;
+module.exports = Notes;

@@ -1,4 +1,28 @@
-.container.header {
+.container.header form {
     display: flex;
-    align-items: center;
+    width: 600px;
+    margin: 20px auto;
+    align-content: center;
+    justify-content: center;
+}
+
+div.container.notes {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+
+div.container.notes .row {
+    margin-top: 20px;
+}
+
+.container.header form input[type="text"] {
+    width: 500px;
+    margin-right: 20px;
+}
+
+.container.notes {
+    margin: 20px auto;
+    box-shadow: 3px 3px 5px #535353;
+    border-radius: 6px 6px 6px 6px;
 }

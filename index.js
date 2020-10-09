@@ -3,7 +3,7 @@ const pug = require('pug');
 const path = require('path');
 const bodyParser = require('body-parser');
 const { validate, ValidationError, Joi } = require('express-validation')
-const { Note, Notes } = require('./notes');
+const Notes = require('./notes');
 
 const newNoteValidation = {
     body: Joi.object({
@@ -37,7 +37,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', (req, res) => {
-    res.send(pug.renderFile("index.pug", {notes: notes.notes}));
+    console.log(notes.notes);
+    res.send(pug.renderFile("index.pug", {notes: Object.fromEntries(notes.notes)}));
 });
 
 app.post('/', validate(newNoteValidation, {}, {}), (req, res, next) => {
@@ -47,9 +48,11 @@ app.post('/', validate(newNoteValidation, {}, {}), (req, res, next) => {
 });
 
 app.get('/edit/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res, next) => {
-    const note = notes.get(req.params.id);
-    if (note) {
-        res.send(pug.renderFile("edit.pug", {uuid: note.uuid, noteText: note.text}));
+    console.log(req.params.uuid);
+    const noteText = notes.get(req.params.uuid);
+    console.log(noteText);
+    if (noteText) {
+        res.send(pug.renderFile("edit.pug", {uuid: req.params.uuid, noteText: noteText}));
         next();
     } else {
         next("Invalid uuid.");
@@ -58,7 +61,7 @@ app.get('/edit/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res, next) =>
 
 app.post('/edit', validate(editNoteValidation, {}, {}), (req, res) => {
     console.log(req.body);
-    notes.editByID(req.body.uuid, req.body.noteText);
+    notes.edit(req.body.uuid, req.body.noteText);
     console.log(notes.get(req.body.uuid));
     res.redirect('/');
 });
