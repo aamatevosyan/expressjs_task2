@@ -61,8 +61,10 @@ app.post('/edit', validate(editNoteValidation, {}, {}), (req, res) => {
     res.redirect('/');
 });
 
-app.get('/delete/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res) => {
-    notes.delete(req.params.uuid);
+app.get('/delete/:uuid', validate(uuidOnlyValidation, {}, {}), (req, res, next) => {
+    if (!notes.delete(req.params.uuid)) {
+        next("Invalid uuid.");
+    }
     res.redirect('/');
 });
 
